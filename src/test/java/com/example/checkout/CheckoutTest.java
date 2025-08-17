@@ -69,4 +69,30 @@ public class CheckoutTest {
         ));
         assertEquals(new BigDecimal("1.70"), total);
     }
+
+    // Edge cases
+    // // only Apple and Orange counted
+    @Test
+    void unknownItemsShouldBeIgnored() {
+        Checkout checkout = new SimpleCheckout();
+        BigDecimal total = checkout.calculateTotal(List.of("Apple", "Banana", "Orange", "Mango"));
+        assertEquals(new BigDecimal("0.85"), total);
+    }
+
+    // 2 charged, 1 free
+    @Test
+    void oddNumberOfApplesWithBogo() {
+        Checkout checkout = new SimpleCheckout();
+        BigDecimal total = checkout.calculateTotal(List.of("Apple", "Apple", "Apple"));
+        assertEquals(new BigDecimal("1.20"), total);
+    }
+
+    // Case insensitive items, respects offers
+    @Test
+    void itemNamesShouldBeCaseInsensitive() {
+        Checkout checkout = new SimpleCheckout();
+        BigDecimal total = checkout.calculateTotal(List.of("APPLE", "orange", "Apple"));
+        assertEquals(new BigDecimal("1.45"), total); // respects offers
+    }
+
 }
