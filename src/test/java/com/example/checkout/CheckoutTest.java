@@ -1,5 +1,7 @@
 package com.example.checkout;
 
+import com.example.checkout.core.Checkout;
+import com.example.checkout.impl.SimpleCheckout;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -11,7 +13,7 @@ class CheckoutTest {
 
     @Test
     void emptyCartShouldReturnZero() {
-        Checkout checkout = new Checkout();
+        Checkout checkout = new SimpleCheckout();
         BigDecimal total = checkout.calculateTotal(List.of());
         assertEquals(new BigDecimal("0.00"), total);
     }
