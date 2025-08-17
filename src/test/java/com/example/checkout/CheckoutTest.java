@@ -28,12 +28,21 @@ public class CheckoutTest {
         assertEquals(new BigDecimal("0.00"), total);
     }
 
+    // Apple buy 1 get 1 free
     @Test
     void twoApplesShouldCostOneTwentyWithoutOffers() {
         Checkout checkout = new SimpleCheckout();
         BigDecimal total = checkout.calculateTotal(List.of("Apple", "Apple"));
         // Step 1 logic: no offers applied yet
         assertEquals(new BigDecimal("0.60"), total);
+    }
+
+    // 3 for price of 2
+    @Test
+    void threeForTwoOnOrangesOnly() {
+        Checkout checkout = new SimpleCheckout();
+        BigDecimal total = checkout.calculateTotal(List.of("Orange", "Orange", "Orange"));
+        assertEquals(new BigDecimal("0.50"), total);
     }
 
     @Test
@@ -71,7 +80,7 @@ public class CheckoutTest {
     }
 
     // Edge cases
-    // // only Apple and Orange counted
+    // only Apple and Orange counted
     @Test
     void unknownItemsShouldBeIgnored() {
         Checkout checkout = new SimpleCheckout();
@@ -95,4 +104,14 @@ public class CheckoutTest {
         assertEquals(new BigDecimal("1.45"), total); // respects offers
     }
 
+    @Test
+    void largeMixedCartShouldApplyAllOffers() {
+        Checkout checkout = new SimpleCheckout();
+        List<String> items = List.of(
+                "Apple", "Apple", "Apple", // 3 apples -> 2 charged
+                "Orange", "Orange", "Orange", "Orange" // 4 oranges -> 3 charged
+        );
+        BigDecimal total = checkout.calculateTotal(items);
+        assertEquals(new BigDecimal("2.05"), total); // 2*0.60 + 3*0.25
+    }
 }
