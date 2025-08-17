@@ -9,8 +9,18 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class CheckoutTest {
+/**
+ * CheckoutTest contains unit tests for the Checkout implementation.
+ *
+ * Tests follow TDD approach:
+ * 1. Step 1: Basic checkout calculations (no offers)
+ * 2. Step 2: Apply offers (BOGO for apples, 3-for-2 for oranges)
+ */
+public class CheckoutTest {
 
+    // -------------------
+    // Step 1: Basic checkout
+    // -------------------
     @Test
     void emptyCartShouldReturnZero() {
         Checkout checkout = new SimpleCheckout();
@@ -19,30 +29,44 @@ class CheckoutTest {
     }
 
     @Test
-    void singleAppleShouldCostSixtyPence() {
+    void twoApplesShouldCostOneTwentyWithoutOffers() {
         Checkout checkout = new SimpleCheckout();
-        BigDecimal total = checkout.calculateTotal(List.of("Apple"));
+        BigDecimal total = checkout.calculateTotal(List.of("Apple", "Apple"));
+        // Step 1 logic: no offers applied yet
         assertEquals(new BigDecimal("0.60"), total);
     }
 
     @Test
-    void twoApplesShouldCostOneTwenty() {
+    void mixedCartShouldReturnTwoPoundsFiveWithoutOffers() {
         Checkout checkout = new SimpleCheckout();
-        BigDecimal total = checkout.calculateTotal(List.of("Apple", "Apple"));
+        BigDecimal total = checkout.calculateTotal(List.of("Apple", "Apple", "Orange", "Apple"));
+        // Step 1 logic: no offers applied yet
+        assertEquals(new BigDecimal("1.45"), total);
+    }
+
+    // -------------------
+    // Step 2: Offers
+    // -------------------
+    @Test
+    void applesBOGOOffer() {
+        Checkout checkout = new SimpleCheckout();
+        BigDecimal total = checkout.calculateTotal(List.of("Apple", "Apple", "Apple", "Apple"));
         assertEquals(new BigDecimal("1.20"), total);
     }
 
     @Test
-    void singleOrangeShouldCostTwentyFivePence() {
+    void orangesThreeForTwoOffer() {
         Checkout checkout = new SimpleCheckout();
-        BigDecimal total = checkout.calculateTotal(List.of("Orange"));
-        assertEquals(new BigDecimal("0.25"), total);
+        BigDecimal total = checkout.calculateTotal(List.of("Orange", "Orange", "Orange"));
+        assertEquals(new BigDecimal("0.50"), total);
     }
 
     @Test
-    void mixedCartShouldReturnTwoPoundsFive() {
+    void mixedCartWithOffers() {
         Checkout checkout = new SimpleCheckout();
-        BigDecimal total = checkout.calculateTotal(List.of("Apple", "Apple", "Orange", "Apple"));
-        assertEquals(new BigDecimal("2.05"), total);
+        BigDecimal total = checkout.calculateTotal(List.of(
+                "Apple", "Apple", "Orange", "Apple", "Orange", "Orange"
+        ));
+        assertEquals(new BigDecimal("1.70"), total);
     }
 }
