@@ -24,4 +24,18 @@ class CheckoutTest {
         BigDecimal total = checkout.calculateTotal(List.of("Apple"));
         assertEquals(new BigDecimal("0.60"), total);
     }
+
+    @Test
+    void twoApplesShouldCostOneTwenty() {
+        Checkout checkout = new SimpleCheckout();
+        BigDecimal total = checkout.calculateTotal(List.of("Apple", "Apple"));
+        assertEquals(new BigDecimal("1.20"), total);
+    }
+
+    @Test
+    void singleOrangeShouldCostTwentyFivePence() {
+        Checkout checkout = new SimpleCheckout();
+        BigDecimal total = checkout.calculateTotal(List.of("Orange"));
+        assertEquals(new BigDecimal("0.25"), total);
+    }
 }
