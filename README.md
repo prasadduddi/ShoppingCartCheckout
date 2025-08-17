@@ -1,17 +1,15 @@
 # ShoppingCartCheckout
 
 A simple checkout system for a shop selling **apples** and **oranges**, implemented in Java with **TDD approach**.
-
 ---
 ## Project Structure
 ShoppingCartCheckout/
- ├─ src/main/java/com/example/checkout/
- │   ├─ core/Checkout.java          # Interface
- │   └─ impl/SimpleCheckout.java    # Implementation
- └─ src/test/java/com/example/checkout/
-     └─ CheckoutTest.java      # Unit tests
----
+ src/main/java/com/example/checkout/core/Checkout.java          # Interface
 
+ src/main/java/com/example/checkout/impl/SimpleCheckout.java    # Implementation
+
+ src/test/java/com/example/checkout/CheckoutTest.java           # Unit tests
+ 
 ## Features
 
 - Calculate total cost of items in the cart.
@@ -48,12 +46,16 @@ To run this project, you will need:
 ## Steps to Run the Project
 
 ### 1. Clone the Repository
+
 git clone https://github.com/prasadduddi/ShoppingCartCheckout.git
+
 cd ShoppingCartCheckout
 
 ### Build the Project
+
 mvn clean compile
 
 ### Run Unit Tests
 All functionality and offers are tested using JUnit 5:
+
 mvn test
