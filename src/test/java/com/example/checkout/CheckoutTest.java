@@ -17,4 +17,11 @@ class CheckoutTest {
         BigDecimal total = checkout.calculateTotal(List.of());
         assertEquals(new BigDecimal("0.00"), total);
     }
+
+    @Test
+    void singleAppleShouldCostSixtyPence() {
+        Checkout checkout = new SimpleCheckout();
+        BigDecimal total = checkout.calculateTotal(List.of("Apple"));
+        assertEquals(new BigDecimal("0.60"), total);
+    }
 }
