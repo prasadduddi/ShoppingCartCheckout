@@ -38,4 +38,11 @@ class CheckoutTest {
         BigDecimal total = checkout.calculateTotal(List.of("Orange"));
         assertEquals(new BigDecimal("0.25"), total);
     }
+
+    @Test
+    void mixedCartShouldReturnTwoPoundsFive() {
+        Checkout checkout = new SimpleCheckout();
+        BigDecimal total = checkout.calculateTotal(List.of("Apple", "Apple", "Orange", "Apple"));
+        assertEquals(new BigDecimal("2.05"), total);
+    }
 }
